@@ -1,0 +1,24 @@
+﻿@model LabMaintanance6.Models.Complain
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Complain</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Repaired_StausId, "Repaired Status")
+        @Html.DropDownListFor(model => model.Repaired_StausId, ViewBag.Repaired_StausId as SelectList, "-- Select Repaired Status --", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Repaired_StausId)
+    </div>
+
+   
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
+}

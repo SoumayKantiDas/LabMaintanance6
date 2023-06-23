@@ -1,0 +1,179 @@
+﻿@model LabMaintanance6.Models.Complain
+
+@{
+    ViewBag.Title = "Details";
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    .container {
+        margin-top: 50px;
+    }
+
+    .row {
+        justify-content: center;
+    }
+
+    .col-md-8 {
+        background-color: #f8f9fa;
+        padding: 30px;
+        border-radius: 5px;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    .table th,
+    .table td {
+        padding: 8px 16px;
+        color: #555;
+    }
+
+    .form-control-file {
+        display: inline-block;
+        width: auto;
+    }
+
+    .btn-primary {
+        margin-top: 20px;
+        width: 100%;
+    }
+
+    .btn-secondary {
+        margin-top: 20px;
+        width: 100%;
+        background-color: #777;
+        color: #fff;
+    }
+
+    /* Additional CSS styles for fields */
+    label {
+        font-weight: bold;
+    }
+
+    select,
+    input[type="text"],
+    textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    select {
+        height: 34px;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    .text-danger {
+        color: red;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Please Submit Your Complain Here</h2>
+
+            @using (Html.BeginForm("Create", "Complains", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <table class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Field</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>UserName</th>
+                            <td>
+                                @Html.DropDownListFor(model => model.user_id, ViewBag.user_id as SelectList, "-- Select User --", new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Name_of_the_Item</th>
+                            <td>
+                                @Html.EditorFor(model => model.Name_Of_the_Item, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Name_Of_the_Item, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>
+                                @Html.TextAreaFor(model => model.description, new { @class = "form-control", rows = 4, required = "required" })
+                                @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Location</th>
+                            <td>
+                                @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Priority</th>
+                            <td>
+                                @Html.DropDownListFor(model => model.PriorityId, ViewBag.PriorityId as SelectList, "-- Select Priority --", new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+                            </td>
+                       
+                        <tr>
+                            <th>Repaired Status</th>
+                            <td>
+                                @Html.DropDownListFor(model => model.Repaired_StausId, ViewBag.Repaired_StausId as SelectList, "-- Select Repaired Status --", new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.Repaired_StausId, "", new { @class = "text-danger" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Image</th>
+                            <td>
+                                <input type="file" name="ImageData" class="form-control-file" required="required" />
+                                @Html.ValidationMessageFor(model => model.image_data, "", new { @class = "text-danger", required = "required" })
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Anti-forgery token AJAX setup
+        $.ajaxPrefilter(function (options, originalOptions, xhr) {
+            if (!options.crossDomain && $("input[name='__RequestVerificationToken']").length > 0) {
+                var token = $("input[name='__RequestVerificationToken']").val();
+                xhr.setRequestHeader("XSRF-TOKEN", token);
+            }
+        });
+    });
+</script>
