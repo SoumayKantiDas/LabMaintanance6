@@ -9,6 +9,10 @@ using System.Web;
 using System.Web.Mvc;
 using LabMaintanance6.Models;
 using System.Net.Mail;
+using System.Web.UI;
+using PagedList;
+using PagedList.Mvc;
+
 namespace LabMaintanance6.Controllers.Teacher
 {
     public class ComplainsController : Controller
@@ -16,7 +20,7 @@ namespace LabMaintanance6.Controllers.Teacher
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
         // GET: Complains
-        public ActionResult Index()
+        public ActionResult Index(int? i)
         {
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
@@ -29,15 +33,22 @@ namespace LabMaintanance6.Controllers.Teacher
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
+
             var complains = db.Complains
                 .Where(c => c.status)
                 .Include(c => c.AllUser)
                 .Include(c => c.Priority)
                 .Include(c => c.Repaired_Staus)
-                .ToList();
+                .OrderByDescending(c => c.complain_id) // Order by a specific property, such as Id
+                .ToList()
+                .ToPagedList(i ?? 1, 3);
+
+
+
 
             return View(complains);
         }
+
 
 
         // GET: Complains/Details/5
@@ -168,6 +179,17 @@ namespace LabMaintanance6.Controllers.Teacher
         // GET: Complains/Edit/5
         public ActionResult Edit(int? id)
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -193,6 +215,17 @@ namespace LabMaintanance6.Controllers.Teacher
        
         public ActionResult Edit(int id, Complain updatedComplain)
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
             if (ModelState.IsValid)
             {
                 var existingComplain = db.Complains.Find(id);
@@ -218,6 +251,17 @@ namespace LabMaintanance6.Controllers.Teacher
         // GET: Complains/Delete/5
         public ActionResult Delete(int? id)
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -237,6 +281,17 @@ namespace LabMaintanance6.Controllers.Teacher
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
             Complain complain = db.Complains.Find(id);
             if (complain == null)
             {

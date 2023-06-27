@@ -4,38 +4,66 @@
     ViewBag.Title = "Index";
 }
 
-<div class="container">
-    <h2>Users Record Table</h2>
+<h2>Index</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hashPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.email_verified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Role.role_name)
+        </th>
+        <th></th>
+    </tr>
 
-    <table class="table table-striped table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>Status</th>
-                <th>Email Verified</th>
-                <th>Role Name</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.username)</td>
-                    <td>@Html.DisplayFor(modelItem => item.email)</td>
-                    <td>@Html.DisplayFor(modelItem => item.status)</td>
-                    <td>@Html.DisplayFor(modelItem => item.email_verified)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Role.role_name)</td>
-                    <td>
-                        <div class="btn-group">
-                           
-                            @Html.ActionLink("Delete", "Delete", new { id = item.user_id }, new { @class = "btn btn-danger" })
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hashPassword)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.email_verified)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Role.role_name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.user_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.user_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.user_id })
+        </td>
+    </tr>
+}
+
+</table>
