@@ -102,13 +102,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>UserName</th>
-                            <td>
-                                @Html.DropDownListFor(model => model.user_id, ViewBag.user_id as SelectList, "-- Select User --", new { @class = "form-control", required = "required" })
-                                @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })
-                            </td>
-                        </tr>
+                        
                         <tr>
                             <th>Name_of_the_Item</th>
                             <td>

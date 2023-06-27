@@ -18,6 +18,17 @@ namespace LabMaintanance6.Controllers.Teacher
         // GET: Complains
         public ActionResult Index()
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
             var complains = db.Complains
                 .Where(c => c.status)
                 .Include(c => c.AllUser)
@@ -32,6 +43,19 @@ namespace LabMaintanance6.Controllers.Teacher
         // GET: Complains/Details/5
         public ActionResult Details(int? id)
         {
+
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -47,7 +71,19 @@ namespace LabMaintanance6.Controllers.Teacher
         // GET: Complains/Create
         public ActionResult Create()
         {
-            ViewBag.user_id = new SelectList(db.AllUsers, "user_id", "username");
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.user_id = userId;
             ViewBag.PriorityId = new SelectList(db.Priorities, "PriorityId", "priority1");
             ViewBag.Repaired_StausId = new SelectList(db.Repaired_Staus, "Repaired_StausId", "R_Status");
             return View();
@@ -60,6 +96,18 @@ namespace LabMaintanance6.Controllers.Teacher
         [ValidateAntiForgeryToken]
         public ActionResult Create(Complain complain, HttpPostedFileBase imageData)
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 1)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
+
             if (ModelState.IsValid)
             {
                 if (imageData != null && imageData.ContentLength > 0)
@@ -73,12 +121,13 @@ namespace LabMaintanance6.Controllers.Teacher
 
                     complain.image_data = imageBytes;
                 }
+                complain.user_id = userId.Value;
                 complain.status = true;
                 db.Complains.Add(complain);
                 db.SaveChanges();
 
                 // Get the list of users with role_id = 2
-                var users = db.AllUsers.Where(u => u.role_id == 2).ToList();
+                var users = db.AllUsers.Where(u => u.role_id == 2 && u.status == true).ToList();
 
                 // Send email to each user
                 foreach (var user in users)
@@ -91,9 +140,10 @@ namespace LabMaintanance6.Controllers.Teacher
 
             ViewBag.PriorityId = new SelectList(db.Priorities, "PriorityId", "priority1", complain.PriorityId);
             ViewBag.Repaired_StausId = new SelectList(db.Repaired_Staus, "Repaired_StausId", "R_Status", complain.Repaired_StausId);
-            ViewBag.user_id = new SelectList(db.AllUsers, "user_id", "username", complain.user_id);
+            ViewBag.user_id = userId;
             return View(complain);
         }
+
 
         private void SendEmail(string recipient, string subject, string body)
         {

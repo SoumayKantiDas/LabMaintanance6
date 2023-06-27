@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="LabMaintanance4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="LabMaintanance4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AllUsers">
           <Key>
             <PropertyRef Name="user_id" />
@@ -65,6 +65,7 @@
           <Property Name="technicianName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="action_description" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="action_date" Type="datetime" Nullable="false" />
+          <Property Name="status" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK__AllUsers__role_i__2E1BDC42">
           <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
@@ -154,8 +155,7 @@
             <End Role="tech2" EntitySet="tech2" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LabMaintanance4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -229,6 +229,7 @@
           <Property Name="action_description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="action_date" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Complain" Relationship="Self.FK__tech2__complain___31EC6D26" FromRole="tech2" ToRole="Complains" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK__AllUsers__role_i__2E1BDC42">
           <End Role="Roles" Type="Self.Role" Multiplicity="1" />
@@ -383,6 +384,7 @@
           <EntitySetMapping Name="tech2">
             <EntityTypeMapping TypeName="LabMaintanance4Model.tech2">
               <MappingFragment StoreEntitySet="tech2">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="action_id" ColumnName="action_id" />
                 <ScalarProperty Name="complain_id" ColumnName="complain_id" />
                 <ScalarProperty Name="technicianName" ColumnName="technicianName" />

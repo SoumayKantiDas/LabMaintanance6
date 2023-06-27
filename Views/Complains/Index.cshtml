@@ -27,7 +27,7 @@
                 <th>Repaired_Staus</th>
                 <th>Location</th>
                 <th>Priority</th>
-                <th>Repaired_Staus Description</th>
+                <th>Description</th>
                 <th>Image</th>
                 <th></th>
                 <th></th>
@@ -35,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Reverse().Take(5)) // Display only ten most recent rows in reverse order
             {
                 <tr>
                     <td>
@@ -69,7 +69,7 @@
                         @Html.ActionLink("Edit", "Edit", new { id = item.complain_id }, new { @class = "btn btn-primary" })
                     </td>
                     <td>
-                        <a href="@Url.Action("Delete", "Complains", new { id = item.complain_id })" class="btn btn-danger btn-action"id="take-action-@item.complain_id">Delete</a>
+                        <a href="@Url.Action("Delete", "Complains", new { id = item.complain_id })" class="btn btn-danger btn-action" id="take-action-@item.complain_id">Delete</a>
                     </td>
                     <td>
                         <a href="@Url.Action("Create", "Tech2", new { id = item.complain_id })" class="btn btn-info btn-action" id="take-action-@item.complain_id">Take Action</a>

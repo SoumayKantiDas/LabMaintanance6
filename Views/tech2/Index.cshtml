@@ -1,0 +1,38 @@
+﻿@model IEnumerable<LabMaintanance6.Models.tech2>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Action List</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.technicianName)</th>
+            <th>@Html.DisplayNameFor(model => model.action_description)</th>
+            <th>@Html.DisplayNameFor(model => model.action_date)</th>
+            <th>@Html.DisplayNameFor(model => model.Complain.Name_Of_the_Item)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.technicianName)</td>
+                <td>@Html.DisplayFor(modelItem => item.action_description)</td>
+                <td>@Html.DisplayFor(modelItem => item.action_date)</td>
+                <td>@Html.DisplayFor(modelItem => item.Complain.Name_Of_the_Item)</td>
+                <td>
+                  
+                 
+                    @Html.ActionLink("Delete", "Delete", new { id = item.action_id }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

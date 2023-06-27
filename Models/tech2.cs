@@ -19,6 +19,7 @@ namespace LabMaintanance6.Models
         public string technicianName { get; set; }
         public string action_description { get; set; }
         public System.DateTime action_date { get; set; }
+        public bool status { get; set; }
     
         public virtual Complain Complain { get; set; }
     }
