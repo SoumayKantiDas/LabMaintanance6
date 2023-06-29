@@ -62,13 +62,13 @@ namespace LabMaintanance6.Controllers
                 {
                     case 1:
                         Session["RoleId"] = 1;
-                        return RedirectToAction("Index", "Teacher");
+                        return RedirectToAction("Index", "Complains");
                     case 2:
                         Session["RoleId"] = 2;
-                        return RedirectToAction("Index", "Stuff");
+                        return RedirectToAction("Index", "StuffComplains");
                     case 3:
                         Session["RoleId"] = 3;
-                        return RedirectToAction("Index", "Student");
+                        return RedirectToAction("Index", "StudentComplains");
                     default:
                         return RedirectToAction("Index", "Home");
                 }

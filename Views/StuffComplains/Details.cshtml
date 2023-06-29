@@ -144,6 +144,6 @@
 
 <div class="action-links">
     @Html.ActionLink("Edit", "Edit", new { id = Model.complain_id }, new { @class = "btn btn-primary" })
-    <a href="@Url.Action("Create", "Tech2", new { id = Model.complain_id })" class="btn btn-info btn-action" id="take-action-@Model.complain_id">Take Action</a>
+    <a href="@Url.Action("Create", "StuffTech2", new { id = Model.complain_id })" class="btn btn-info btn-action" id="take-action-@Model.complain_id">Take Action</a>
     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
 </div>

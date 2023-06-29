@@ -142,7 +142,7 @@ namespace LabMaintanance6.Controllers.Student
                 // Send email to each user
                 foreach (var user in users)
                 {
-                    SendEmail(user.email, "Lab Maintainer", "A new complaint has been created. Please review it.");
+                    SendEmail(user.email, "New Complain Created", "A new complain has been created. Please review it.");
                 }
 
                 return RedirectToAction("Index");
