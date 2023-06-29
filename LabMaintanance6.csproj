@@ -136,13 +136,17 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Student\StudentAllUsersController.cs" />
+    <Compile Include="Controllers\Student\StudentComplainsController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
+    <Compile Include="Controllers\Stuff\StuffAllUsersController.cs" />
+    <Compile Include="Controllers\Stuff\StuffComplainsController.cs" />
     <Compile Include="Controllers\Stuff\StuffController.cs" />
+    <Compile Include="Controllers\Stuff\Stufftech2Controller.cs" />
     <Compile Include="Controllers\Teacher\AllUsersController.cs" />
     <Compile Include="Controllers\Teacher\ComplainsController.cs" />
     <Compile Include="Controllers\Teacher\TeacherController.cs" />
     <Compile Include="Controllers\Teacher\tech2Controller.cs" />
-    <Compile Include="Controllers\Teacher\T_profileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -263,16 +267,27 @@
     <Content Include="Views\Home\VerifyEmail.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\R_VerifyEmail.cshtml" />
-    <Content Include="Views\T_profile\Create.cshtml" />
-    <Content Include="Views\T_profile\Delete.cshtml" />
-    <Content Include="Views\T_profile\Details.cshtml" />
-    <Content Include="Views\T_profile\Edit.cshtml" />
-    <Content Include="Views\T_profile\Index.cshtml" />
-    <Content Include="Views\AllUsers\Create.cshtml" />
     <Content Include="Views\AllUsers\Delete.cshtml" />
-    <Content Include="Views\AllUsers\Details.cshtml" />
     <Content Include="Views\AllUsers\Edit.cshtml" />
     <Content Include="Views\AllUsers\Index.cshtml" />
+    <Content Include="Views\Home\Logout.cshtml" />
+    <Content Include="Views\Shared\stuff_layout.cshtml" />
+    <Content Include="Views\Shared\User_layout.cshtml" />
+    <Content Include="Views\StudentComplains\Create.cshtml" />
+    <Content Include="Views\StudentComplains\Details.cshtml" />
+    <Content Include="Views\StudentComplains\Index.cshtml" />
+    <Content Include="Views\StuffComplains\Create.cshtml" />
+    <Content Include="Views\StuffComplains\Details.cshtml" />
+    <Content Include="Views\StuffComplains\Edit.cshtml" />
+    <Content Include="Views\StuffComplains\Index.cshtml" />
+    <Content Include="Views\Stufftech2\Create.cshtml" />
+    <Content Include="Views\Stufftech2\Index.cshtml" />
+    <Content Include="Views\StudentAllUsers\Delete.cshtml" />
+    <Content Include="Views\StudentAllUsers\Edit.cshtml" />
+    <Content Include="Views\StudentAllUsers\Index.cshtml" />
+    <Content Include="Views\StuffAllUsers\Delete.cshtml" />
+    <Content Include="Views\StuffAllUsers\Edit.cshtml" />
+    <Content Include="Views\StuffAllUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

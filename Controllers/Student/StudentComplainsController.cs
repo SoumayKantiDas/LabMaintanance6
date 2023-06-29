@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using LabMaintanance6.Models;
+using System.Net.Mail;
+using System.Web.UI;
 using PagedList;
 using PagedList.Mvc;
 
-namespace LabMaintanance6.Controllers.Teacher
+namespace LabMaintanance6.Controllers.Student
 {
-    public class tech2Controller : Controller
+    public class StudentComplainsController : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
-        // GET: tech2
+        // GET: StudentComplains
         public ActionResult Index(int? i)
         {
             // Retrieve user ID from session
@@ -26,24 +28,56 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 3)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-            var tech21 = db.tech2.Include(t => t.Complain)
-                                .Where(t => t.status == true)
-                                .ToList()
-                                .OrderByDescending(c => c.action_id) // Order by a specific property, such as Id
+
+            var complains1 = db.Complains
+                .Where(c => c.status)
+                .Include(c => c.AllUser)
+                .Include(c => c.Priority)
+                .Include(c => c.Repaired_Staus)
+
+                .OrderByDescending(c => c.complain_id) // Order by a specific property, such as Id
                 .ToList()
                 .ToPagedList(i ?? 1, 3);
-            
 
-            return View(tech21);
+
+
+
+            return View(complains1);
         }
 
+        // GET: StudentComplains/Details/5
+        public ActionResult Details(int? id)
+        {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
 
-        // GET: tech2/Details/5
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 3)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Complain complain1 = db.Complains.Find(id);
+            if (complain1 == null)
+            {
+                return HttpNotFound();
+            }
+            return View(complain1);
+        }
+
+        // GET: StudentComplains/Create
         public ActionResult Create()
         {
             // Retrieve user ID from session
@@ -52,54 +86,72 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 3)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-            var activeComplains = db.Complains.Where(c => c.status == true);
-            ViewBag.complain_id = new SelectList(activeComplains, "complain_id", "Name_Of_the_Item");
+
+            ViewBag.user_id = userId;
+            ViewBag.PriorityId = new SelectList(db.Priorities, "PriorityId", "priority1");
+            ViewBag.Repaired_StausId = new SelectList(db.Repaired_Staus, "Repaired_StausId", "R_Status");
             return View();
         }
 
-
-        // POST: tech2/Create
+        // POST: StudentComplains/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "action_id,complain_id,technicianName,action_description,action_date")] tech2 tech2,int id)
+        public ActionResult Create(Complain complain, HttpPostedFileBase imageData)
         {
-             // Retrieve user ID from session
+
+            // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
             // Retrieve role ID from session
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 3)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
+
             if (ModelState.IsValid)
             {
-                tech2.status = true;
-                tech2.complain_id = id;
-                db.tech2.Add(tech2);
+                if (imageData != null && imageData.ContentLength > 0)
+                {
+                    // Convert the uploaded image to a byte array
+                    byte[] imageBytes;
+                    using (var binaryReader = new BinaryReader(imageData.InputStream))
+                    {
+                        imageBytes = binaryReader.ReadBytes(imageData.ContentLength);
+                    }
+
+                    complain.image_data = imageBytes;
+                }
+                complain.user_id = userId.Value;
+                complain.status = true;
+                db.Complains.Add(complain);
+                db.SaveChanges();
+
                 // Get the list of users with role_id = 2
-                var users = db.AllUsers.Where(u => u.role_id == 1 && u.status == true).ToList();
+                var users = db.AllUsers.Where(u => u.role_id == 2 && u.status == true).ToList();
 
                 // Send email to each user
                 foreach (var user in users)
                 {
-                    SendEmail(user.email, "New Action has been taken", "A new Action has been taken. Please review it.");
+                    SendEmail(user.email, "Lab Maintainer", "A new complaint has been created. Please review it.");
                 }
-                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.complain_id = new SelectList(db.Complains, "complain_id", "Name_Of_the_Item", tech2.complain_id);
-            return View(tech2);
+            ViewBag.PriorityId = new SelectList(db.Priorities, "PriorityId", "priority1", complain.PriorityId);
+            ViewBag.Repaired_StausId = new SelectList(db.Repaired_Staus, "Repaired_StausId", "R_Status", complain.Repaired_StausId);
+            ViewBag.user_id = userId;
+            return View(complain);
         }
         private void SendEmail(string recipient, string subject, string body)
         {
@@ -120,58 +172,13 @@ namespace LabMaintanance6.Controllers.Teacher
             smtpClient.Send(message);
         }
 
-        public ActionResult Delete(int? id)
-        {
-            // Retrieve user ID from session
-            int? userId = Session["UserId"] as int?;
-            // Retrieve role ID from session
-            int? roleId = Session["RoleId"] as int?;
 
-            // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
-            {
-                // Authorization failed, redirect to Home/Index
-                return RedirectToAction("Index", "Home");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tech2 tech2 = db.tech2.Find(id);
-            if (tech2 == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tech2);
-        }
+       
 
-        // POST: tech2/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            // Retrieve user ID from session
-            int? userId = Session["UserId"] as int?;
-            // Retrieve role ID from session
-            int? roleId = Session["RoleId"] as int?;
-
-            // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
-            {
-                // Authorization failed, redirect to Home/Index
-                return RedirectToAction("Index", "Home");
-            }
-            tech2 tech2 = db.tech2.Find(id);
-            tech2.status = false;
-            db.Entry(tech2).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
+        
 
         protected override void Dispose(bool disposing)
         {
-
             if (disposing)
             {
                 db.Dispose();

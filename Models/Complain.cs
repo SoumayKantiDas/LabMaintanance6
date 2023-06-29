@@ -29,6 +29,7 @@ namespace LabMaintanance6.Models
         public int Repaired_StausId { get; set; }
         public byte[] image_data { get; set; }
         public bool status { get; set; }
+        public Nullable<System.DateTime> action_date { get; set; }
     
         public virtual AllUser AllUser { get; set; }
         public virtual Priority Priority { get; set; }

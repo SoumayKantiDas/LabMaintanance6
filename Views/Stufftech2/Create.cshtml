@@ -2,8 +2,7 @@
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_layout.cshtml";
-
+    Layout = "~/Views/Shared/stuff_layout.cshtml";
     var selectedComplainId = ViewBag.SelectedComplainId;
 }
 
@@ -67,7 +66,7 @@
     @Html.AntiForgeryToken()
 
     <table class="table table-striped">
-     
+
         <tr>
             <th>Technician Name</th>
             <td>

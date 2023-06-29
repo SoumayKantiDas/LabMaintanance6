@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace LabMaintanance6.Controllers
 {
@@ -197,5 +198,16 @@ namespace LabMaintanance6.Controllers
                 return builder.ToString();
             }
         }
+
+        public ActionResult Logout()
+        {
+            // Clear session variables or authentication cookies
+            Session.Clear(); // Clear all session variables
+            FormsAuthentication.SignOut(); // Sign out from Forms Authentication (if used)
+
+            // Redirect to the login page or any other desired page
+            return RedirectToAction("Login", "Home");
+        }
+
     }
 }

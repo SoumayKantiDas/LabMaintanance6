@@ -11,6 +11,18 @@ namespace LabMaintanance6.Controllers.Student
         // GET: Student
         public ActionResult Index()
         {
+            // Retrieve user ID from session
+            int? userId = Session["UserId"] as int?;
+            // Retrieve role ID from session
+            int? roleId = Session["RoleId"] as int?;
+
+            // Perform authorization logic using the session's UserId and RoleId
+            if (userId == null || roleId != 3)
+            {
+                // Authorization failed, redirect to Home/Index
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 

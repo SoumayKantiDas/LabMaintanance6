@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_layout.cshtml";
+    Layout = "~/Views/Shared/stuff_layout.cshtml";
 }
 
 @section Scripts {
@@ -112,7 +112,7 @@
         <div class="col-md-8">
             <h2>Please Submit Your Complain Here</h2>
 
-            @using (Html.BeginForm("Create", "Complains", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("Create", "StuffComplains", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
 

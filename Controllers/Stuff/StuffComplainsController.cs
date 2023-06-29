@@ -13,13 +13,13 @@ using System.Web.UI;
 using PagedList;
 using PagedList.Mvc;
 
-namespace LabMaintanance6.Controllers.Teacher
+namespace LabMaintanance6.Controllers.Stuff
 {
-    public class ComplainsController : Controller
+    public class StuffComplainsController : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
-        // GET: Complains
+        // GET: StuffComplains
         public ActionResult Index(int? i)
         {
             // Retrieve user ID from session
@@ -28,18 +28,18 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
 
-            var complains = db.Complains
+            var complains3 = db.Complains
                 .Where(c => c.status)
                 .Include(c => c.AllUser)
                 .Include(c => c.Priority)
                 .Include(c => c.Repaired_Staus)
-              
+
                 .OrderByDescending(c => c.complain_id) // Order by a specific property, such as Id
                 .ToList()
                 .ToPagedList(i ?? 1, 3);
@@ -47,22 +47,19 @@ namespace LabMaintanance6.Controllers.Teacher
 
 
 
-            return View(complains);
+            return View(complains3);
         }
 
-
-
-        // GET: Complains/Details/5
+        // GET: StuffComplains/Details/5
         public ActionResult Details(int? id)
         {
-
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
             // Retrieve role ID from session
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -80,7 +77,7 @@ namespace LabMaintanance6.Controllers.Teacher
             return View(complain);
         }
 
-        // GET: Complains/Create
+        // GET: StuffComplains/Create
         public ActionResult Create()
         {
             // Retrieve user ID from session
@@ -89,7 +86,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -101,7 +98,7 @@ namespace LabMaintanance6.Controllers.Teacher
             return View();
         }
 
-        // POST: Complains/Create
+        // POST: StuffComplains/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -114,7 +111,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -155,8 +152,6 @@ namespace LabMaintanance6.Controllers.Teacher
             ViewBag.user_id = userId;
             return View(complain);
         }
-
-
         private void SendEmail(string recipient, string subject, string body)
         {
             // Configure the SMTP client
@@ -177,7 +172,7 @@ namespace LabMaintanance6.Controllers.Teacher
         }
 
 
-        // GET: Complains/Edit/5
+        // GET: StuffComplains/Edit/5
         public ActionResult Edit(int? id)
         {
             // Retrieve user ID from session
@@ -186,7 +181,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -200,20 +195,17 @@ namespace LabMaintanance6.Controllers.Teacher
             {
                 return HttpNotFound();
             }
-            
-    
+
+
             ViewBag.Repaired_StausId = new SelectList(db.Repaired_Staus, "Repaired_StausId", "R_Status", complain.Repaired_StausId);
             return View(complain);
         }
 
-        // POST: Complains/Edit/5
+        // POST: StuffComplains/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // POST: Complains/Edit/5
-
-       
         public ActionResult Edit(int id, Complain updatedComplain)
         {
             // Retrieve user ID from session
@@ -222,7 +214,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -246,67 +238,9 @@ namespace LabMaintanance6.Controllers.Teacher
             return View(updatedComplain);
         }
 
+       
 
-
-
-        // GET: Complains/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            // Retrieve user ID from session
-            int? userId = Session["UserId"] as int?;
-            // Retrieve role ID from session
-            int? roleId = Session["RoleId"] as int?;
-
-            // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
-            {
-                // Authorization failed, redirect to Home/Index
-                return RedirectToAction("Index", "Home");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Complain complain = db.Complains.Find(id);
-            if (complain == null)
-            {
-                return HttpNotFound();
-            }
-            return View(complain);
-        }
-
-        // POST: Complains/Delete/5
-
-        // POST: Complains/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            // Retrieve user ID from session
-            int? userId = Session["UserId"] as int?;
-            // Retrieve role ID from session
-            int? roleId = Session["RoleId"] as int?;
-
-            // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
-            {
-                // Authorization failed, redirect to Home/Index
-                return RedirectToAction("Index", "Home");
-            }
-            Complain complain = db.Complains.Find(id);
-            if (complain == null)
-            {
-                return HttpNotFound();
-            }
-
-            complain.status = false; // Set the Status property to false
-
-            db.Entry(complain).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return RedirectToAction("Index");
-        }
-
+       
 
         protected override void Dispose(bool disposing)
         {

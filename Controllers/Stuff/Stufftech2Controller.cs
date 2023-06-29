@@ -4,21 +4,21 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using LabMaintanance6.Models;
+using PagedList;
+using PagedList.Mvc;
 
-namespace LabMaintanance6.Controllers.Teacher
+namespace LabMaintanance6.Controllers.Stuff
 {
-    public class AllUsersController : Controller
+    public class Stufftech2Controller : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
-        // GET: AllUsers
-        public ActionResult Index()
+        // GET: Stufftech2
+        public ActionResult Index(int? i)
         {
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
@@ -26,28 +26,26 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
+            var tech2 = db.tech2.Include(t => t.Complain)
+                                .Where(t => t.status == true)
+                                .ToList()
+                                .OrderByDescending(c => c.action_id) // Order by a specific property, such as Id
+                .ToList()
+                .ToPagedList(i ?? 1, 3);
 
-            var allUsers = db.AllUsers
-                     .Include(a => a.Role)
-                      .Where(a => a.status && a.user_id == userId) // Filter users with status = true and matching user ID
-                              .ToList();
 
-
-            return View(allUsers.ToList());
+            return View(tech2);
         }
 
-       
+      
 
-        
-
-
-        // GET: AllUsers/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: Stufftech2/Create
+        public ActionResult Create()
         {
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
@@ -55,30 +53,22 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            AllUser allUser = db.AllUsers.Find(id);
-            if (allUser == null)
-            {
-                return HttpNotFound();
-            }
-          
-            return View(allUser);
+            var activeComplains = db.Complains.Where(c => c.status == true);
+            ViewBag.complain_id = new SelectList(activeComplains, "complain_id", "Name_Of_the_Item");
+            return View();
         }
 
-        // POST: AllUsers/Edit/5
+        // POST: Stufftech2/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, AllUser updatedPassword)
+        public ActionResult Create([Bind(Include = "action_id,complain_id,technicianName,action_description,action_date")] tech2 tech2, int id)
         {
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
@@ -86,42 +76,49 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
             if (ModelState.IsValid)
             {
+                tech2.status = true;
+                tech2.complain_id = id;
+                db.tech2.Add(tech2);
+                // Get the list of users with role_id = 2
+                var users = db.AllUsers.Where(u => u.role_id == 1 && u.status == true).ToList();
 
-                var existingpassword = db.AllUsers.Find(id);
-                if (existingpassword == null)
+                // Send email to each user
+                foreach (var user in users)
                 {
-                    return HttpNotFound();
+                    SendEmail(user.email, "New Action has been taken", "A new Action has been taken. Please review it.");
                 }
-                existingpassword.password = updatedPassword.password;
-                existingpassword.hashPassword = ComputeHash(updatedPassword.password);
-                db.Entry(existingpassword).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-           
-            return View(updatedPassword);
+
+            ViewBag.complain_id = new SelectList(db.Complains, "complain_id", "Name_Of_the_Item", tech2.complain_id);
+            return View(tech2);
         }
-        private string ComputeHash(string input)
+        private void SendEmail(string recipient, string subject, string body)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
+            // Configure the SMTP client
+            var smtpClient = new SmtpClient("smtp.gmail.com", 587);
+            smtpClient.EnableSsl = true;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.Credentials = new NetworkCredential("soumaykanti2859@gmail.com", "ssatuysevdkgrthi");
+
+            // Create the email message
+            var message = new MailMessage();
+            message.From = new MailAddress("soumaykanti2859@gmail.com");
+            message.To.Add(new MailAddress(recipient));
+            message.Subject = subject;
+            message.Body = body;
+
+            // Send the email
+            smtpClient.Send(message);
         }
-        // GET: AllUsers/Delete/5
         public ActionResult Delete(int? id)
         {
             // Retrieve user ID from session
@@ -130,26 +127,24 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-            AllUser allUser = db.AllUsers.Find(id);
-            if (allUser == null)
+            tech2 tech2 = db.tech2.Find(id);
+            if (tech2 == null)
             {
                 return HttpNotFound();
             }
-
-            return View(allUser);
+            return View(tech2);
         }
 
+        // POST: tech2/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -160,24 +155,22 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-
-            AllUser allUser = db.AllUsers.Find(id);
-            allUser.status = false; // Set the status bit to off (false)
-            db.Entry(allUser).State = EntityState.Modified;
+            tech2 tech2 = db.tech2.Find(id);
+            tech2.status = false;
+            db.Entry(tech2).State = EntityState.Modified;
             db.SaveChanges();
-
             return RedirectToAction("Index");
         }
-        // GET: Account/Logout
-      
+
 
         protected override void Dispose(bool disposing)
         {
+
             if (disposing)
             {
                 db.Dispose();
@@ -186,3 +179,4 @@ namespace LabMaintanance6.Controllers.Teacher
         }
     }
 }
+

@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_layout.cshtml";
+    Layout = "~/Views/Shared/User_layout.cshtml";
 }
 
 <h2>Update Password</h2>
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-group">
-        @Html.LabelFor(model => model.password,"Password", htmlAttributes: new { @class = "control-label" })
+        @Html.LabelFor(model => model.password, "Password", htmlAttributes: new { @class = "control-label" })
         @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
     </div>

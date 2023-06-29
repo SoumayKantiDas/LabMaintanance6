@@ -2,56 +2,132 @@
 
 @{
     ViewBag.Title = "Register";
+    Layout = null;
 }
 
-<h2>Register</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-ash {
+            background-color: #808080;
+            color: #ffffff;
+        }
 
-@using (Html.BeginForm("Register", "Home", FormMethod.Post))
-{
-    @Html.AntiForgeryToken()
+        .label-wide {
+            width: 150px;
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.username)
-        @Html.TextBoxFor(model => model.username, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.username)
-    </div>
+        .registration-form {
+            background-color: #f7f7f7;
+            padding: 50px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc; /* Added border style */
+        }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.email)
-        @Html.TextBoxFor(model => model.email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.email)
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.role_id)
-        @Html.DropDownListFor(model => model.role_id, ViewBag.role_id as SelectList, "-- Student --", new { @class = "form-control", disabled = "disabled" })
-        @Html.ValidationMessageFor(model => model.role_id)
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.password)
-        @Html.PasswordFor(model => model.password, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.password)
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Register" class="btn btn-primary" />
-    </div>
-}
-<div>
-    @Html.ActionLink("Back to Login", "Login")
-</div>
-@section Scripts {
-    <script>
-        // Display alert message if model error exists
-        $(function () {
-            var modelErrors = '@Html.Raw(ViewData.ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage)';
-
-            if (modelErrors) {
-                alert(modelErrors);
+            .registration-form h2 {
+                margin-top: 0;
+                margin-bottom: 20px;
+                text-align: center;
             }
-        });
-    </script>
-}
 
+            .registration-form .form-group {
+                margin-bottom: 20px;
+            }
+
+            .registration-form .control-label {
+                text-align: right;
+            }
+
+            .registration-form .btn-register {
+                width: 100%;
+                padding: 10px 0;
+                font-weight: bold;
+            }
+
+            .registration-form .btn-back {
+                font-weight: bold;
+                background-color: #808080;
+                color: #ffffff;
+                border-color: #808080;
+            }
+
+                .registration-form .btn-back:hover {
+                    background-color: #595959;
+                    border-color: #595959;
+                }
+
+        body {
+            background-color: #f0f0f0;
+            padding-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="registration-form text-center">
+                    <h2>Register</h2>
+
+                    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.username, "UserName", new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.username, new { @class = "form-control", placeholder = "Username" })
+                                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.email, "Email", new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(model => model.email, new { @class = "form-control", placeholder = "Email" })
+                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.role_id, "Role", new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(model => model.role_id, ViewBag.role_id as SelectList, "-- Select Role --", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.password, "Password", new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.PasswordFor(model => model.password, new { @class = "form-control", placeholder = "Password" })
+                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <input type="submit" value="Register" class="btn btn-primary btn-register" />
+                            </div>
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            @Html.ActionLink("Back to Login", "Login", null, new { @class = "btn btn-primary btn-back" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>

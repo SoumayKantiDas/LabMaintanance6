@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_layout.cshtml";
+    Layout = "~/Views/Shared/User_layout.cshtml";
 }
 @using PagedList;
 @using PagedList.Mvc;
@@ -16,9 +16,7 @@
     <!-- Breadcrumbs-->
     <div class="card mb-3">
         <div class="row justify-content-end">
-            <div class="col-auto">
-                <a class="nav-link btn btn-sm btn-bold btn-smooth btn-success" href="@Url.Action("Index", "Tech2")" type="button">Actions</a>
-            </div>
+            
         </div>
 
         <br />
@@ -49,7 +47,9 @@
                             <tr>
                                 <td>
                                     @Html.ActionLink("Details", "Details", new { id = item.complain_id }, new { @class = "btn btn-info btn-action" })
-                                    <a href="@Url.Action("Create", "Tech2", new { id = item.complain_id })" class="btn btn-primary btn-action" id="take-action-@item.complain_id">Take Action</a>
+                                    
+
+
                                 </td>
                                 <td>
                                     <span>@Html.DisplayFor(modelItem => item.Name_Of_the_Item)</span>
@@ -75,21 +75,14 @@
                                     }
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.action_date)</td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.complain_id }, new { @class = "btn btn-primary" })
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Delete", "Complains", new { id = item.complain_id })" class="btn btn-danger btn-action" id="take-action-@item.complain_id">Delete</a>
-                                </td>
-                                <td>
-                                    <a href="@Url.Action("Create", "Tech2", new { id = item.complain_id })" class="btn btn-info btn-action" id="take-action-@item.complain_id">Take Action</a>
-                                </td>
+                           
+                              
                             </tr>
                         }
 
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model,i=>Url.Action("Index", "Complains", new {i, search = Request.QueryString["search"] }))
+                @Html.PagedListPager(Model, i => Url.Action("Index", "StudentComplains", new { i, search = Request.QueryString["search"] }))
             </div>
         </div>
     </div>

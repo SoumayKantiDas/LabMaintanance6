@@ -31,6 +31,7 @@
           <Property Name="Repaired_StausId" Type="int" Nullable="false" />
           <Property Name="image_data" Type="varbinary(max)" />
           <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="action_date" Type="datetime" />
         </EntityType>
         <EntityType Name="Priority">
           <Key>
@@ -191,6 +192,7 @@
           <NavigationProperty Name="Priority" Relationship="Self.FK__Complains__Prior__300424B4" FromRole="Complains" ToRole="Priority" />
           <NavigationProperty Name="Repaired_Staus" Relationship="Self.FK__Complains__Repai__30F848ED" FromRole="Complains" ToRole="Repaired_Staus" />
           <NavigationProperty Name="tech2" Relationship="Self.FK__tech2__complain___31EC6D26" FromRole="Complains" ToRole="tech2" />
+          <Property Name="action_date" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Priority">
           <Key>
@@ -342,6 +344,7 @@
           <EntitySetMapping Name="Complains">
             <EntityTypeMapping TypeName="LabMaintanance4Model.Complain">
               <MappingFragment StoreEntitySet="Complains">
+                <ScalarProperty Name="action_date" ColumnName="action_date" />
                 <ScalarProperty Name="complain_id" ColumnName="complain_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="Name_Of_the_Item" ColumnName="Name_Of_the_Item" />

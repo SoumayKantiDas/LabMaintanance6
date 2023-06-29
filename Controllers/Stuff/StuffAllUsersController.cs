@@ -11,13 +11,13 @@ using System.Web.Mvc;
 using System.Web.Security;
 using LabMaintanance6.Models;
 
-namespace LabMaintanance6.Controllers.Teacher
+namespace LabMaintanance6.Controllers.Stuff
 {
-    public class AllUsersController : Controller
+    public class StuffAllUsersController : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
-        // GET: AllUsers
+        // GET: StuffAllUsers
         public ActionResult Index()
         {
             // Retrieve user ID from session
@@ -26,7 +26,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -41,12 +41,10 @@ namespace LabMaintanance6.Controllers.Teacher
             return View(allUsers.ToList());
         }
 
-       
-
         
 
 
-        // GET: AllUsers/Edit/5
+        // GET: StuffAllUsers/Edit/5
         public ActionResult Edit(int? id)
         {
             // Retrieve user ID from session
@@ -55,7 +53,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -69,11 +67,11 @@ namespace LabMaintanance6.Controllers.Teacher
             {
                 return HttpNotFound();
             }
-          
+
             return View(allUser);
         }
 
-        // POST: AllUsers/Edit/5
+        // POST: StuffAllUsers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -86,7 +84,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -105,7 +103,7 @@ namespace LabMaintanance6.Controllers.Teacher
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-           
+
             return View(updatedPassword);
         }
         private string ComputeHash(string input)
@@ -121,7 +119,7 @@ namespace LabMaintanance6.Controllers.Teacher
                 return builder.ToString();
             }
         }
-        // GET: AllUsers/Delete/5
+        // GET: StuffAllUsers/Delete/5
         public ActionResult Delete(int? id)
         {
             // Retrieve user ID from session
@@ -130,7 +128,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -150,6 +148,7 @@ namespace LabMaintanance6.Controllers.Teacher
             return View(allUser);
         }
 
+        // POST: StuffAllUsers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -160,7 +159,7 @@ namespace LabMaintanance6.Controllers.Teacher
             int? roleId = Session["RoleId"] as int?;
 
             // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 1)
+            if (userId == null || roleId != 2)
             {
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
@@ -173,8 +172,6 @@ namespace LabMaintanance6.Controllers.Teacher
 
             return RedirectToAction("Index");
         }
-        // GET: Account/Logout
-      
 
         protected override void Dispose(bool disposing)
         {

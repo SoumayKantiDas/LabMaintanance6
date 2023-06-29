@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_layout.cshtml";
 }
 
 <h2>Complain Details</h2>
@@ -9,7 +10,7 @@
 <div class="details-container">
     <div class="details-row">
         <div class="details-label">
-            @Html.DisplayNameFor(model => model.Name_Of_the_Item)
+             Name_Of_the_Item
         </div>
         <div class="details-value">
             @Html.DisplayFor(model => model.Name_Of_the_Item)
@@ -18,7 +19,7 @@
 
     <div class="details-row">
         <div class="details-label">
-            @Html.DisplayNameFor(model => model.description)
+            Description
         </div>
         <div class="details-value">
             @Html.DisplayFor(model => model.description)
@@ -27,7 +28,7 @@
 
     <div class="details-row">
         <div class="details-label">
-            @Html.DisplayNameFor(model => model.location)
+            Location
         </div>
         <div class="details-value">
             @Html.DisplayFor(model => model.location)
@@ -52,25 +53,18 @@
 
     <div class="details-row">
         <div class="details-label">
-            @Html.DisplayNameFor(model => model.status)
+            Status
         </div>
         <div class="details-value">
             @Html.DisplayFor(model => model.status)
         </div>
     </div>
 
-    <div class="details-row">
-        <div class="details-label">
-            @Html.DisplayNameFor(model => model.AllUser.username)
-        </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.AllUser.username)
-        </div>
-    </div>
+  
 
     <div class="details-row">
         <div class="details-label">
-            @Html.DisplayNameFor(model => model.Priority.priority1)
+            Priority
         </div>
         <div class="details-value">
             @Html.DisplayFor(model => model.Priority.priority1)
@@ -79,7 +73,7 @@
 
     <div class="details-row">
         <div class="details-label">
-            @Html.DisplayNameFor(model => model.Repaired_Staus.R_Status)
+            Repaired Staus
         </div>
         <div class="details-value">
             @Html.DisplayFor(model => model.Repaired_Staus.R_Status)
