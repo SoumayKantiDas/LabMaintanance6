@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Lab Maintainior </title>
+    <title>@ViewBag.Title - Lab Maintainer</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Styles.Render("~/Content/bootstrap-css") <!-- Include Bootstrap CSS -->
@@ -16,23 +16,26 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="nav-link btn btn-sm btn-bold btn-smooth" href="@Url.Action("Index", "StuffComplains")" type="button">Dashboard</a>
+            <a class="navbar-brand" href="#">Lab Maintainer</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarColor03">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link btn btn-sm btn-bold btn-smooth" href="@Url.Action("Create", "StuffComplains")" type="button">Create_Complains</a>
+                        <a class="nav-link" href="@Url.Action("Index", "StuffComplains")">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-sm btn-bold btn-smooth" href="@Url.Action("Index", "Stufftech2")" type="button">Actions</a>
+                        <a class="nav-link" href="@Url.Action("Create", "StuffComplains")">Create Complains</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-sm btn-bold btn-smooth" href="@Url.Action("Index", "StuffAllUsers")" type="button">Profile</a>
+                        <a class="nav-link" href="@Url.Action("Index", "Stufftech2")">Actions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-sm btn-bold btn-smooth" href="@Url.Action("Logout", "Home")" type="button">Logout</a>
+                        <a class="nav-link" href="@Url.Action("Index", "StuffAllUsers")">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Logout", "Home")">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -45,12 +48,19 @@
 
     <footer class="footer fixed-bottom bg-light py-2">
         <div class="container">
-            <p class="m-0 text-center">© 2023 Lab Maintanance Website. All CopyRights are reserved by Group 9.</p>
+            <p class="m-0 text-center">© 2023 Lab Maintenance Website. All Rights Reserved by Group 9.</p>
         </div>
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap-js") <!-- Include Bootstrap JavaScript -->
+    <script>
+        $(document).ready(function () {
+            $('.navbar-toggler').click(function () {
+                $('.navbar-collapse').toggleClass('show');
+            });
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
