@@ -1,87 +1,90 @@
 ﻿@model LabMaintanance6.Models.Complain
 
 @{
-    ViewBag.Title = "Details";
-    Layout = "~/Views/Shared/_layout.cshtml";
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Complain Details</h2>
+<h2>Delete</h2>
 
-<div class="details-container">
-    <div class="details-row">
-        <div class="details-label">
-             Name_Of_the_Item
-        </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.Name_Of_the_Item)
+<div class="container">
+    <h3>Are you sure you want to delete this?</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Complain</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name_Of_the_Item)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name_Of_the_Item)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.location)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.location)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.status)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.status)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.image_data)
+                </dt>
+                <dd>
+                    @if (Model.image_data != null)
+                    {
+                        var base64Image = Convert.ToBase64String(Model.image_data);
+                        var imgSrc = $"data:image;base64,{base64Image}";
+                        <img src="@imgSrc" alt="Complain Image" style="max-width: 200px; max-height: 150px;" />
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Priority.priority1)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Priority.priority1)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Repaired_Staus.Status)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Repaired_Staus.Status)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.AllUser.username)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AllUser.username)
+                </dd>
+            </dl>
         </div>
     </div>
 
-    <div class="details-row">
-        <div class="details-label">
-            Description
-        </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.description)
-        </div>
-    </div>
+    @using (Html.BeginForm("Delete", "Complains", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
 
-    <div class="details-row">
-        <div class="details-label">
-            Location
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
         </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.location)
-        </div>
-    </div>
-
-    <div class="details-row">
-        <div class="details-label">
-            Image
-        </div>
-        <div class="details-value">
-            @if (Model.image_data != null)
-            {
-                <img src="@Url.Action("GetImage", "Complain", new { id = Model.complain_id })" alt="Complain Image" />
-            }
-            else
-            {
-                <span>No image available</span>
-            }
-        </div>
-    </div>
-
-    <div class="details-row">
-        <div class="details-label">
-            Status
-        </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.status)
-        </div>
-    </div>
-
-  
-
-    <div class="details-row">
-        <div class="details-label">
-            Priority
-        </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.Priority.priority1)
-        </div>
-    </div>
-
-    <div class="details-row">
-        <div class="details-label">
-            Repaired Staus
-        </div>
-        <div class="details-value">
-            @Html.DisplayFor(model => model.Repaired_Staus.R_Status)
-        </div>
-    </div>
-</div>
-
-<div class="action-links">
-    @Html.ActionLink("Edit", "Edit", new { id = Model.complain_id }, new { @class = "btn btn-primary" })
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+    }
 </div>

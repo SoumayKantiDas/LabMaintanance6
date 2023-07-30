@@ -28,6 +28,9 @@ namespace LabMaintanance6.Models
         public string hashPassword { get; set; }
         public bool status { get; set; }
         public bool email_verified { get; set; }
+        public string ResetToken { get; set; }
+        public Nullable<System.DateTime> ResetTokenExpiry { get; set; }
+        public string passwordConfirmation { get; set; }
     
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

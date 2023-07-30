@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LabMaintanance4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LabMaintanance4Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AllUsers">
           <Key>
             <PropertyRef Name="user_id" />
@@ -17,6 +17,9 @@
           <Property Name="hashPassword" Type="varchar" MaxLength="255" />
           <Property Name="status" Type="bit" Nullable="false" />
           <Property Name="email_verified" Type="bit" Nullable="false" />
+          <Property Name="ResetToken" Type="nvarchar" MaxLength="1" />
+          <Property Name="ResetTokenExpiry" Type="datetime" />
+          <Property Name="passwordConfirmation" Type="nvarchar" MaxLength="1" />
         </EntityType>
         <EntityType Name="Complains">
           <Key>
@@ -156,7 +159,8 @@
             <End Role="tech2" EntitySet="tech2" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LabMaintanance4Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -172,6 +176,9 @@
           <Property Name="hashPassword" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="status" Type="Boolean" Nullable="false" />
           <Property Name="email_verified" Type="Boolean" Nullable="false" />
+          <Property Name="ResetToken" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="ResetTokenExpiry" Type="DateTime" Precision="3" />
+          <Property Name="passwordConfirmation" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Role" Relationship="Self.FK__AllUsers__role_i__2E1BDC42" FromRole="AllUsers" ToRole="Roles" />
           <NavigationProperty Name="Complains" Relationship="Self.FK__Complains__user___2F10007B" FromRole="AllUsers" ToRole="Complains" />
         </EntityType>
@@ -188,11 +195,11 @@
           <Property Name="Repaired_StausId" Type="Int32" Nullable="false" />
           <Property Name="image_data" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="action_date" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AllUser" Relationship="Self.FK__Complains__user___2F10007B" FromRole="Complains" ToRole="AllUsers" />
           <NavigationProperty Name="Priority" Relationship="Self.FK__Complains__Prior__300424B4" FromRole="Complains" ToRole="Priority" />
           <NavigationProperty Name="Repaired_Staus" Relationship="Self.FK__Complains__Repai__30F848ED" FromRole="Complains" ToRole="Repaired_Staus" />
           <NavigationProperty Name="tech2" Relationship="Self.FK__tech2__complain___31EC6D26" FromRole="Complains" ToRole="tech2" />
-          <Property Name="action_date" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Priority">
           <Key>
@@ -230,8 +237,8 @@
           <Property Name="technicianName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="action_description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="action_date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Complain" Relationship="Self.FK__tech2__complain___31EC6D26" FromRole="tech2" ToRole="Complains" />
           <Property Name="status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Complain" Relationship="Self.FK__tech2__complain___31EC6D26" FromRole="tech2" ToRole="Complains" />
         </EntityType>
         <Association Name="FK__AllUsers__role_i__2E1BDC42">
           <End Role="Roles" Type="Self.Role" Multiplicity="1" />
@@ -338,13 +345,15 @@
                 <ScalarProperty Name="hashPassword" ColumnName="hashPassword" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="email_verified" ColumnName="email_verified" />
+                <ScalarProperty Name="ResetToken" ColumnName="ResetToken" />
+                <ScalarProperty Name="ResetTokenExpiry" ColumnName="ResetTokenExpiry" />
+                <ScalarProperty Name="passwordConfirmation" ColumnName="passwordConfirmation" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Complains">
             <EntityTypeMapping TypeName="LabMaintanance4Model.Complain">
               <MappingFragment StoreEntitySet="Complains">
-                <ScalarProperty Name="action_date" ColumnName="action_date" />
                 <ScalarProperty Name="complain_id" ColumnName="complain_id" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="Name_Of_the_Item" ColumnName="Name_Of_the_Item" />
@@ -354,6 +363,7 @@
                 <ScalarProperty Name="Repaired_StausId" ColumnName="Repaired_StausId" />
                 <ScalarProperty Name="image_data" ColumnName="image_data" />
                 <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="action_date" ColumnName="action_date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -387,12 +397,12 @@
           <EntitySetMapping Name="tech2">
             <EntityTypeMapping TypeName="LabMaintanance4Model.tech2">
               <MappingFragment StoreEntitySet="tech2">
-                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="action_id" ColumnName="action_id" />
                 <ScalarProperty Name="complain_id" ColumnName="complain_id" />
                 <ScalarProperty Name="technicianName" ColumnName="technicianName" />
                 <ScalarProperty Name="action_description" ColumnName="action_description" />
                 <ScalarProperty Name="action_date" ColumnName="action_date" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
