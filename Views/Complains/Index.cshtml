@@ -76,7 +76,7 @@
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.action_date)</td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.complain_id }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink("Update Status", "Edit", new { id = item.complain_id }, new { @class = "btn btn-primary" })
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Delete", "Complains", new { id = item.complain_id })" class="btn btn-danger btn-action" id="take-action-@item.complain_id">Delete</a>
