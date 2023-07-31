@@ -1,0 +1,21 @@
+﻿@model LabMaintanance6.Models.AllUser
+
+@{
+    ViewBag.Title = "Store Email";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // If you have a shared layout, replace this with the correct layout path.
+}
+
+<h2>Store Email in Session</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.Label("Email:")
+        @Html.TextBox("email", "", new { @class = "form-control", required = "required" })
+    </div>
+    <button type="submit" class="btn btn-primary">Store Email</button>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

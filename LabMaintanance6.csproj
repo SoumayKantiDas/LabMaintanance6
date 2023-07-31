@@ -294,6 +294,8 @@
     <Content Include="Views\DAllUsers\Details.cshtml" />
     <Content Include="Views\DAllUsers\Edit.cshtml" />
     <Content Include="Views\DAllUsers\Index.cshtml" />
+    <Content Include="Views\DAllUsers\StoreEmailInSession.cshtml" />
+    <Content Include="Views\DAllUsers\VerifyEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

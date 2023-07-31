@@ -148,7 +148,7 @@ namespace LabMaintanance6.Controllers
             catch (Exception ex)
             {
                 // Handle exception and display appropriate error message
-                ModelState.AddModelError("", "Failed to send email. Please try again later.");
+                ModelState.AddModelError($"{ex}", "Failed to send email. Please try again later.");
                 return RedirectToAction("Index");
             }
         }
