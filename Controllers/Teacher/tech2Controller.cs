@@ -92,7 +92,7 @@ namespace LabMaintanance6.Controllers.Teacher
                 // Send email to each user
                 foreach (var user in users)
                 {
-                    SendEmail(user.email, "New Action has been taken", "A new Action has been taken. Please review it.");
+                    SendEmail(user.email, "Lab Maintanior", "A new Action has been taken. Please review it.");
                 }
                 db.SaveChanges();
                 return RedirectToAction("Index");

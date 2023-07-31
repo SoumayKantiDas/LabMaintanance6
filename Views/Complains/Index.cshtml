@@ -31,12 +31,13 @@
 
                         <tr>
                             <th>Get Details</th>
+                            <th>Image</th>
                             <th>Name_of_the_Item</th>
                             <th>Repaired_Staus</th>
                             <th>Location</th>
                             <th>Priority</th>
                             <th>Description</th>
-                            <th>Image</th>
+
                             <th>Date</th>
                             <th></th>
                             <th></th>
@@ -50,6 +51,14 @@
                                 <td>
                                     @Html.ActionLink("Details", "Details", new { id = item.complain_id }, new { @class = "btn btn-info btn-action" })
                                     <a href="@Url.Action("Create", "Tech2", new { id = item.complain_id })" class="btn btn-primary btn-action" id="take-action-@item.complain_id">Take Action</a>
+                                </td>
+                                <td>
+                                    @if (item.image_data != null)
+                                    {
+                                        var base64Image = Convert.ToBase64String(item.image_data);
+                                        var imgSrc = $"data:image;base64,{base64Image}";
+                                        <img src="@imgSrc" alt="Complain Image" class="img-fluid" />
+                                    }
                                 </td>
                                 <td>
                                     <span>@Html.DisplayFor(modelItem => item.Name_Of_the_Item)</span>
@@ -66,14 +75,7 @@
                                 <td>
                                     <span>@Html.DisplayFor(modelItem => item.description)</span>
                                 </td>
-                                <td>
-                                    @if (item.image_data != null)
-                                    {
-                                        var base64Image = Convert.ToBase64String(item.image_data);
-                                        var imgSrc = $"data:image;base64,{base64Image}";
-                                        <img src="@imgSrc" alt="Complain Image" class="img-fluid" />
-                                    }
-                                </td>
+
                                 <td>@Html.DisplayFor(modelItem => item.action_date)</td>
                                 <td>
                                     @Html.ActionLink("Update Status", "Edit", new { id = item.complain_id }, new { @class = "btn btn-primary" })
@@ -89,8 +91,7 @@
 
                     </tbody>
                 </table>
-                @Html.PagedListPager(Model,i=>Url.Action("Index", "Complains", new {i, search = Request.QueryString["search"] }))
+                @Html.PagedListPager(Model, i => Url.Action("Index", "Complains", new { i, search = Request.QueryString["search"] }))
             </div>
         </div>
     </div>
-    
