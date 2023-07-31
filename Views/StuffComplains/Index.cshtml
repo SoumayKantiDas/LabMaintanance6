@@ -13,7 +13,7 @@
     @Html.ActionLink("Submit New Complain", "Create", null, new { @class = "btn btn-primary" })
 </p>
 <div class="container-fluid">
-    <!-- Breadcrumbs-->
+
     <div class="card mb-3">
         <div class="row justify-content-end">
             <div class="col-auto">
@@ -45,7 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) // Display only ten most recent rows in reverse order
+                        @foreach (var item in Model) 
                         {
                             <tr>
                                 <td>
@@ -92,5 +92,6 @@
                 @Html.PagedListPager(Model, i => Url.Action("Index", "StuffComplains", new { i, search = Request.QueryString["search"] }))
             </div>
         </div>
+    </div>
     </div>
     
