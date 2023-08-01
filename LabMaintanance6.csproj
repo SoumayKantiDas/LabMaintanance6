@@ -295,10 +295,6 @@
     <Content Include="Views\DAllUsers\StoreEmailInSession.cshtml" />
     <Content Include="Views\DAllUsers\VerifyEmail.cshtml" />
     <Content Include="Views\Shared\GeneralLayout.cshtml" />
-    <Content Include="Views\RAllUsers\Create.cshtml" />
-    <Content Include="Views\RAllUsers\Delete.cshtml" />
-    <Content Include="Views\RAllUsers\Details.cshtml" />
-    <Content Include="Views\RAllUsers\Edit.cshtml" />
     <Content Include="Views\RAllUsers\Index.cshtml" />
     <Content Include="Views\RAllUsers\StoreEmailInSession.cshtml" />
     <Content Include="Views\RAllUsers\VerifyEmail.cshtml" />

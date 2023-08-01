@@ -12,6 +12,9 @@ using System.Web;
 
 using System.Web.Mvc;
 using System.Web.Security;
+using System.EnterpriseServices;
+using System.Security.Principal;
+using System.Xml.Linq;
 
 namespace LabMaintanance6.Controllers
 {
@@ -48,10 +51,10 @@ namespace LabMaintanance6.Controllers
             var user = db.AllUsers.SingleOrDefault(u => u.username == username && u.status);
             if (user == null || user.hashPassword != ComputeHash(password))
             {
-                ModelState.AddModelError("", "Invalid username or password");
-                return View();
+                ModelState.AddModelError("","Invalid username or accout is Deactive, Plz enter valid User name or Activate ur account");
+                    return View();
             }
-            else
+                else
             {
                 Session["UserId"] = user.user_id;
                 Session["Username"] = user.username;

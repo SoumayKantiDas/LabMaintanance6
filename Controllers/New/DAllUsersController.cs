@@ -24,14 +24,10 @@ namespace LabMaintanance6.Controllers.New
         {
             string userEmail = Session["UserEmail"] as string;
             var allUsers = db.AllUsers.Where(u => u.email == userEmail);
-            if (allUsers != null)
-            {
+           
                 return View(allUsers.ToList());
-            }
-            else
-            {
-                return View("Error", "Home");
-            }
+            
+           
         }
      
         public async Task<ActionResult> SendEmail(string email, string subject, string body)

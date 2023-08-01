@@ -58,6 +58,15 @@
             border-radius: 4px;
             width: 100%;
         }
+        .btn-custom {
+            background-color: black;
+            color: white;
+        }
+
+            .btn-custom:hover {
+                background-color: #333; /* Darken the button on hover */
+                color: white;
+            }
     </style>
 </head>
 <body>
@@ -92,8 +101,15 @@
         <br />
         <div class="text-center">
             <p>Forget password! Plz click here.</p>
-            <a href="@Url.Action("StoreEmailInSession", "DAllUsers")" class="btn btn-default">Forget Password</a>
+            @Html.ActionLink("Forget Password", "StoreEmailInSession", "DAllUsers", null, new { @class = "btn btn-custom btn-back" })
         </div>
+
+        @*<div class="form-group">
+            <p>Forget password! Plz click here.</p>
+            <div class="col-sm-offset-2 col-sm-10">
+                @Html.ActionLink("Forget Password", "StoreEmailInSession", "DAllUsers", null, new { @class = "btn btn-primary btn-back" })
+            </div>
+        </div>*@
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

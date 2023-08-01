@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Email Verification";
     Layout = "~/Views/Shared/GeneralLayout.cshtml";
 }
@@ -9,16 +7,17 @@
 
 <p>Please check your email for the verification OTP and enter it below:</p>
 
-
-@using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal needs-validation", novalidate = "novalidate" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-group">
         @Html.Label("OTP:", new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.TextBox("otp", null, new { @class = "form-control" })
-            @Html.ValidationMessage("otp", "", new { @class = "text-danger" })
+            @Html.TextBox("otp", null, new { @class = "form-control", required = "required" })
+            <div class="invalid-feedback">
+                Please enter the OTP.
+            </div>
         </div>
     </div>
 
@@ -41,5 +40,25 @@
         $(document).ready(function () {
             // Place any additional scripts or logic here if needed.
         });
+
+        // Bootstrap form validation
+        (function () {
+            'use strict';
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.querySelectorAll('.needs-validation');
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
     </script>
 }
