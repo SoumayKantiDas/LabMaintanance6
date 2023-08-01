@@ -94,7 +94,7 @@ namespace LabMaintanance6.Controllers
             {
                 if (db.AllUsers.Any(u => u.username == allUser.username) || db.AllUsers.Any(u => u.email == allUser.email))
                 {
-                    ModelState.AddModelError("", "Username or email already exists. Please choose a different one.");
+                    ModelState.AddModelError("", "Username or email already exists. Goto Login.");
                     ViewBag.role_id = new SelectList(db.Roles, "role_id", "role_name", allUser.role_id);
                     return View(allUser);
                 }
