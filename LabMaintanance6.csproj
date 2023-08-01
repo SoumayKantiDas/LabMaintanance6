@@ -137,6 +137,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\New\DAllUsersController.cs" />
+    <Compile Include="Controllers\New\RAllUsersController.cs" />
     <Compile Include="Controllers\Student\StudentAllUsersController.cs" />
     <Compile Include="Controllers\Student\StudentComplainsController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
@@ -289,13 +290,18 @@
     <Content Include="Views\StuffAllUsers\Delete.cshtml" />
     <Content Include="Views\StuffAllUsers\Edit.cshtml" />
     <Content Include="Views\StuffAllUsers\Index.cshtml" />
-    <Content Include="Views\DAllUsers\Create.cshtml" />
-    <Content Include="Views\DAllUsers\Delete.cshtml" />
-    <Content Include="Views\DAllUsers\Details.cshtml" />
     <Content Include="Views\DAllUsers\Edit.cshtml" />
     <Content Include="Views\DAllUsers\Index.cshtml" />
     <Content Include="Views\DAllUsers\StoreEmailInSession.cshtml" />
     <Content Include="Views\DAllUsers\VerifyEmail.cshtml" />
+    <Content Include="Views\Shared\GeneralLayout.cshtml" />
+    <Content Include="Views\RAllUsers\Create.cshtml" />
+    <Content Include="Views\RAllUsers\Delete.cshtml" />
+    <Content Include="Views\RAllUsers\Details.cshtml" />
+    <Content Include="Views\RAllUsers\Edit.cshtml" />
+    <Content Include="Views\RAllUsers\Index.cshtml" />
+    <Content Include="Views\RAllUsers\StoreEmailInSession.cshtml" />
+    <Content Include="Views\RAllUsers\VerifyEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

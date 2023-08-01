@@ -56,7 +56,7 @@ namespace LabMaintanance6.Controllers
                 Session["UserId"] = user.user_id;
                 Session["Username"] = user.username;
 
-                // Rest of your code...
+              
 
                 switch (user.role_id)
                 {
@@ -197,6 +197,10 @@ namespace LabMaintanance6.Controllers
                 }
                 return builder.ToString();
             }
+        }
+        public ActionResult Error()
+        {
+            return View();
         }
 
         public ActionResult Logout()

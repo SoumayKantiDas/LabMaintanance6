@@ -9,17 +9,16 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 using LabMaintanance6.Models;
 
 namespace LabMaintanance6.Controllers.New
 {
-    public class DAllUsersController : Controller
+    public class RAllUsersController : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
-       // GET: DAllUsers
+        // GET: RAllUsers
         public ActionResult Index()
         {
             string userEmail = Session["UserEmail"] as string;
@@ -33,7 +32,7 @@ namespace LabMaintanance6.Controllers.New
                 return View("Error", "Home");
             }
         }
-     
+
         public async Task<ActionResult> SendEmail(string email, string subject, string body)
         {
             try
@@ -69,15 +68,6 @@ namespace LabMaintanance6.Controllers.New
 
         public async Task<ActionResult> VerifyEmail(int? id)
         {
-            string email = Session["UserEmail"] as string;
-            var user = db.AllUsers.SingleOrDefault(u => u.email == email);
-            if (user != null)
-            {
-                user.status = false;
-                user.email_verified = false;
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -121,7 +111,7 @@ namespace LabMaintanance6.Controllers.New
                 }
 
                 TempData["SuccessMessage"] = "Email verified successfully!";
-                return RedirectToAction("Edit", new { id = user.user_id });
+                return RedirectToAction("Login","Home", new { id = user.user_id });
             }
 
             ModelState.AddModelError("", "Invalid OTP. Please try again.");
@@ -150,94 +140,14 @@ namespace LabMaintanance6.Controllers.New
             {
                 // Store the email in the session
                 Session["UserEmail"] = email;
-                return RedirectToAction("Index","DAllUsers");
+                return RedirectToAction("Index", "DAllUsers");
             }
 
             // Redirect back to the Getsession action
             return RedirectToAction("Getsession");
         }
 
-        // GET: DAllUsers/Details/5
-      
-        // GET: DAllUsers/Edit/5
-
-        public ActionResult Edit(int? id)
-        {
-            ////// Check if the user is authenticated and the session contains the email
-            //if (!User.Identity.IsAuthenticated || Session["UserEmail"] == null)
-            //{
-            //    // Redirect to the Index page in the Home controller if the user is not authenticated or session is empty
-            //    return RedirectToAction("Index", "Home");
-            //}
-
-            // Get the email from the session
-            string userEmail = Session["UserEmail"] as string;
-
-            // Retrieve the user with the matching email from the database
-            AllUser user = db.AllUsers.SingleOrDefault(u => u.email == userEmail);
-
-            // Check if the user with the specified ID exists
-            if (user == null || id == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Check if the db session password matches the existing session password
-            // Replace 'sessionPassword' with the actual password property from the 'AllUser' model
-            if (user.email != Session["UserEmail"] as string)
-            {
-                // Redirect to the Index page in the Home controller if passwords do not match
-                return RedirectToAction("Index", "Home");
-            }
-
-            
-            return View();
-        }
-
-        // POST: DAllUsers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int? id, AllUser updatedPassword)
-        {
-           
-
-            if (ModelState.IsValid)
-            {
-
-                var existingpassword = db.AllUsers.Find(id);
-                
-                if (existingpassword == null)
-                {
-                    return HttpNotFound();
-                }
-                existingpassword.password = updatedPassword.password;
-                existingpassword.hashPassword = ComputeHash(updatedPassword.password);
-                db.Entry(existingpassword).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Login","Home");
-            }
-
-            return View(updatedPassword);
-        }
-        private string ComputeHash(string input)
-        {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                StringBuilder builder = new StringBuilder();
-
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
        
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

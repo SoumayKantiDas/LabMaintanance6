@@ -41,9 +41,9 @@ namespace LabMaintanance6.Controllers.Teacher
             return View(allUsers.ToList());
         }
 
-       
 
-        
+
+
 
 
         // GET: AllUsers/Edit/5
@@ -51,8 +51,18 @@ namespace LabMaintanance6.Controllers.Teacher
         {
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
+
             // Retrieve role ID from session
             int? roleId = Session["RoleId"] as int?;
+
+
+
+            // Check if the requested ID is the same as the user's ID
+            if (id != userId)
+            {
+                // Redirect to the Index page in the Home controller if IDs do not match
+                return RedirectToAction("Index", "Home");
+            }
 
             // Perform authorization logic using the session's UserId and RoleId
             if (userId == null || roleId != 1)
@@ -60,16 +70,17 @@ namespace LabMaintanance6.Controllers.Teacher
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             AllUser allUser = db.AllUsers.Find(id);
             if (allUser == null)
             {
-                return HttpNotFound();
             }
-          
+
             return View();
         }
 

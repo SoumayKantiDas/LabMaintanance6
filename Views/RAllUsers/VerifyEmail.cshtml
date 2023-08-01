@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Email Verification";
-    Layout = null;
+    Layout = "~/Views/Shared/GeneralLayout.cshtml";
 }
 
 <h2>Email Verification</h2>
@@ -10,7 +10,7 @@
 <p>Please check your email for the verification OTP and enter it below:</p>
 
 
-@using (Html.BeginForm("VerifyEmail", "DAllUsers", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
 

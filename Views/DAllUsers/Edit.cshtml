@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/GeneralLayout.cshtml";
 }
 
 <h2>Update Password</h2>
@@ -28,7 +29,7 @@
 
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" id="submitButton" disabled />
-        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
+        @Html.ActionLink("Cancel", "Index","Home", null, new { @class = "btn btn-secondary" })
     </div>
 }
 

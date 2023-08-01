@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Deployment.Internal;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -41,13 +42,24 @@ namespace LabMaintanance6.Controllers.Student
         }
 
 
-       
+
         // GET: StudentAllUsers/Edit/5
         public ActionResult Edit(int? id)
-        {// Retrieve user ID from session
+        {
+            // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
+
             // Retrieve role ID from session
             int? roleId = Session["RoleId"] as int?;
+
+          
+
+            // Check if the requested ID is the same as the user's ID
+            if (id != userId)
+            {
+                // Redirect to the Index page in the Home controller if IDs do not match
+                return RedirectToAction("Index", "Home");
+            }
 
             // Perform authorization logic using the session's UserId and RoleId
             if (userId == null || roleId != 3)
@@ -55,17 +67,18 @@ namespace LabMaintanance6.Controllers.Student
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             AllUser allUser = db.AllUsers.Find(id);
             if (allUser == null)
             {
-                return HttpNotFound();
             }
 
-            return View(allUser);
+            return View();
         }
 
         // POST: StudentAllUsers/Edit/5
