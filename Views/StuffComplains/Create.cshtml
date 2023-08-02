@@ -61,82 +61,77 @@
         .text-danger {
             color: red;
         }
-        .body{
-            padding: 25px;
-        }
     </style>
 </head>
 <body>
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
+            <div class="col-md-8 col-sm-10">
                 <h2 class="text-center mb-4">Please Submit Your Complaint Here</h2>
 
                 @using (Html.BeginForm("Create", "Complains", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Field</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>Name_of_the_Item</th>
-                                    <td>
-                                        @Html.EditorFor(model => model.Name_Of_the_Item, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-                                        @Html.ValidationMessageFor(model => model.Name_Of_the_Item, "", new { @class = "text-danger" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Description</th>
-                                    <td>
-                                        @Html.TextAreaFor(model => model.description, new { @class = "form-control", rows = 4, required = "required" })
-                                        @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Location</th>
-                                    <td>
-                                        @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-                                        @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Priority</th>
-                                    <td>
-                                        @Html.DropDownListFor(model => model.PriorityId, ViewBag.PriorityId as SelectList, "-- Select Priority --", new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Repaired Status</th>
-                                    <td>
-                                        @Html.DropDownListFor(model => model.Repaired_StausId, ViewBag.Repaired_StausId as SelectList, "-- Select Repaired Status --", new { @class = "form-control", required = "required" })
-                                        @Html.ValidationMessageFor(model => model.Repaired_StausId, "", new { @class = "text-danger" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Image</th>
-                                    <td>
-                                        <input type="file" name="ImageData" class="form-control-file" required="required" />
-                                        @Html.ValidationMessageFor(model => model.image_data, "", new { @class = "text-danger", required = "required" })
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Action_Date</th>
-                                    <td>
-                                        @Html.EditorFor(model => model.action_date, new { htmlAttributes = new { @class = "form-control", required = "required" } })
-                                        @Html.ValidationMessageFor(model => model.action_date, "", new { @class = "text-danger" })
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Field</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Name of the Item</th>
+                                <td>
+                                    @Html.EditorFor(model => model.Name_Of_the_Item, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.Name_Of_the_Item, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>
+                                    @Html.TextAreaFor(model => model.description, new { @class = "form-control", rows = 4, required = "required" })
+                                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Location</th>
+                                <td>
+                                    @Html.EditorFor(model => model.location, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.location, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Priority</th>
+                                <td>
+                                    @Html.DropDownListFor(model => model.PriorityId, ViewBag.PriorityId as SelectList, "-- Select Priority --", new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.PriorityId, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Repaired Status</th>
+                                <td>
+                                    @Html.DropDownListFor(model => model.Repaired_StausId, ViewBag.Repaired_StausId as SelectList, "-- Select Repaired Status --", new { @class = "form-control", required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Repaired_StausId, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Image</th>
+                                <td>
+                                    <input type="file" name="ImageData" class="form-control-file" required="required" />
+                                    @Html.ValidationMessageFor(model => model.image_data, "", new { @class = "text-danger", required = "required" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Action_Date</th>
+                                <td>
+                                    @Html.EditorFor(model => model.action_date, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                    @Html.ValidationMessageFor(model => model.action_date, "", new { @class = "text-danger" })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
@@ -151,6 +146,6 @@
     </div>
 
     <!-- Include Bootstrap's JavaScript at the end of the page (before the closing </body> tag) if needed -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyqDz5SvLmbehY4p6o7aS7iC5f1l/2kCS" crossorigin="anonymous"></script>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyqDz5SvLmbehY4p6o7aS7iC5f1l/2kCS" crossorigin="anonymous"></script> -->
 </body>
 </html>

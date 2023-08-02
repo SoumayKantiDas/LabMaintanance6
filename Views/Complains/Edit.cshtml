@@ -20,11 +20,40 @@
         .form-container h2 {
             color: #337ab7;
         }
+
+    /* Style the form inputs */
+    .form-group label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 3px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #4f5b62;
+            border-color: #4f5b62;
+        }
 </style>
 
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-8 offset-md-2">
             <div class="form-container">
                 <h2>Update The Status</h2>
                 @using (Html.BeginForm())
@@ -37,8 +66,8 @@
                         @Html.ValidationMessageFor(model => model.Repaired_StausId)
                     </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                    <div class="form-group text-center">
+                        <input type="submit" value="Save" class="btn btn-primary mr-2" />
                         @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary" })
                     </div>
                 }

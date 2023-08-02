@@ -15,6 +15,7 @@ using LabMaintanance6.Models;
 
 namespace LabMaintanance6.Controllers.New
 {
+    
     public class DAllUsersController : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
@@ -165,9 +166,17 @@ namespace LabMaintanance6.Controllers.New
             //    // Redirect to the Index page in the Home controller if the user is not authenticated or session is empty
             //    return RedirectToAction("Index", "Home");
             //}
+            string userEmail = Session["UserEmail"] as string;
+            AllUser allUser = db.AllUsers.Find(id);
+
+
+            if(allUser.email != userEmail)
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
             // Get the email from the session
-            string userEmail = Session["UserEmail"] as string;
+           
 
             // Retrieve the user with the matching email from the database
             AllUser user = db.AllUsers.SingleOrDefault(u => u.email == userEmail);
