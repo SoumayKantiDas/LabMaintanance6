@@ -7,7 +7,7 @@
 
 <p>Please check your email for the verification OTP and enter it below:</p>
 
-@using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-horizontal needs-validation", novalidate = "novalidate" }))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
