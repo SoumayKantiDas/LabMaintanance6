@@ -65,17 +65,19 @@
     </style>
 </head>
 <body>
+ 
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-sm-10">
-                <h2 class="text-center mb-4">Please Submit Your Complaint Here</h2>
 
-                @using (Html.BeginForm("Create", "Complains", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
+                @using (Html.BeginForm("Create", "StudentComplains", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
 
                     <table class="table table-striped">
                         <thead class="thead-light">
+                            <tr>   <h2 class="text-center mb-4">Please Submit Your Complaint Here</h2></tr>
                             <tr>
                                 <th>Field</th>
                                 <th>Value</th>

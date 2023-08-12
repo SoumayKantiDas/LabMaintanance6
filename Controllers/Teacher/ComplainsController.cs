@@ -39,7 +39,7 @@ namespace LabMaintanance6.Controllers.Teacher
                 .Include(c => c.AllUser)
                 .Include(c => c.Priority)
                 .Include(c => c.Repaired_Staus)
-              
+
                 .OrderByDescending(c => c.complain_id) // Order by a specific property, such as Id
                 .ToList()
                 .ToPagedList(i ?? 1, 3);
@@ -200,8 +200,8 @@ namespace LabMaintanance6.Controllers.Teacher
             {
                 return HttpNotFound();
             }
-            
-    
+
+
             ViewBag.Repaired_StausId = new SelectList(db.Repaired_Staus, "Repaired_StausId", "R_Status", complain.Repaired_StausId);
             return View(complain);
         }
@@ -213,7 +213,7 @@ namespace LabMaintanance6.Controllers.Teacher
         [ValidateAntiForgeryToken]
         // POST: Complains/Edit/5
 
-       
+
         public ActionResult Edit(int id, Complain updatedComplain)
         {
             // Retrieve user ID from session

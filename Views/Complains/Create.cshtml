@@ -36,41 +36,15 @@
     <title>Create Complaint</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyqDz5SvLmbehY4p6o7aS7iC5f1l/2kCS" crossorigin="anonymous">
     <style>
-        /* Additional CSS styles for fields */
-        label {
-            font-weight: bold;
-        }
-
-        select,
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        select {
-            height: 34px;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        .text-danger {
-            color: red;
-        }
+      
     </style>
 </head>
 <body>
+    
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8 col-sm-10">
-                <h2 class="text-center mb-4">Please Submit Your Complaint Here</h2>
+
 
                 @using (Html.BeginForm("Create", "Complains", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
@@ -78,6 +52,7 @@
 
                     <table class="table table-striped">
                         <thead class="thead-light">
+                            <tr><h2 class="text-center mb-4"> Please Submit Your Complaint Here</h2></tr>
                             <tr>
                                 <th>Field</th>
                                 <th>Value</th>

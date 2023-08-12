@@ -77,7 +77,7 @@ namespace LabMaintanance6.Controllers.Student
             return View(complain1);
         }
 
-        // GET: StudentComplains/Create
+        // GET: Complains/Create
         public ActionResult Create()
         {
             // Retrieve user ID from session
@@ -98,14 +98,13 @@ namespace LabMaintanance6.Controllers.Student
             return View();
         }
 
-        // POST: StudentComplains/Create
+        // POST: Complains/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Complain complain, HttpPostedFileBase imageData)
         {
-
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
             // Retrieve role ID from session
@@ -142,7 +141,7 @@ namespace LabMaintanance6.Controllers.Student
                 // Send email to each user
                 foreach (var user in users)
                 {
-                    SendEmail(user.email, "New Complain Created", "A new complain has been created. Please review it.");
+                    SendEmail(user.email, "Lab Maintanior", "A new complain has been created. Please review it.");
                 }
 
                 return RedirectToAction("Index");
@@ -153,6 +152,8 @@ namespace LabMaintanance6.Controllers.Student
             ViewBag.user_id = userId;
             return View(complain);
         }
+
+
         private void SendEmail(string recipient, string subject, string body)
         {
             // Configure the SMTP client
@@ -173,9 +174,10 @@ namespace LabMaintanance6.Controllers.Student
         }
 
 
-       
 
-        
+
+
+
 
         protected override void Dispose(bool disposing)
         {
