@@ -139,12 +139,19 @@ namespace LabMaintanance6.Controllers.Stuff
                 var users = db.AllUsers.Where(u => u.role_id == 2 && u.status == true).ToList();
 
                 // Send email to each user
-                foreach (var user in users)
+                try
                 {
-                    SendEmail(user.email, "New Complain Created", "A new complain has been created. Please review it.");
-                }
+                    foreach (var user in users)
+                    {
+                        SendEmail(user.email, "Labmaintanior", "A new complain has been created. Please review it.");
+                    }
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("Index");
+                }
             }
 
             ViewBag.PriorityId = new SelectList(db.Priorities, "PriorityId", "priority1", complain.PriorityId);

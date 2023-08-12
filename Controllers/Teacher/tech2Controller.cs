@@ -90,10 +90,23 @@ namespace LabMaintanance6.Controllers.Teacher
                 var users = db.AllUsers.Where(u => u.role_id == 1 && u.status == true).ToList();
 
                 // Send email to each user
-                foreach (var user in users)
+                try
                 {
-                    SendEmail(user.email, "Lab Maintanior", "A new Action has been taken. Please review it.");
+                    foreach (var user in users)
+                    {
+                        SendEmail(user.email, "Lab Maintanior", "A new Action has been taken. Please review it.");
+                    }
                 }
+                catch (Exception ex)
+                {
+                    // Log the exception for debugging purposes
+                    System.Diagnostics.Debug.WriteLine($"Exception: {ex}");
+
+                    ViewBag.ErrorMessage = "An error occurred while processing your request.";
+
+                    // In this example, we're just continuing the process even if an exception occurs
+                }
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
