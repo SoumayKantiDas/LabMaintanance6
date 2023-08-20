@@ -68,6 +68,15 @@ namespace LabMaintanance6.Controllers.New
 
         public async Task<ActionResult> VerifyEmail(int? id)
         {
+            string email = Session["UserEmail"] as string;
+            var user = db.AllUsers.SingleOrDefault(u => u.email == email);
+            if (user != null)
+            {
+                user.status = false;
+                user.email_verified = false;
+                db.Entry(user).State = EntityState.Modified;
+                db.SaveChanges();
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -140,11 +149,11 @@ namespace LabMaintanance6.Controllers.New
             {
                 // Store the email in the session
                 Session["UserEmail"] = email;
-                return RedirectToAction("Index", "DAllUsers");
+                return RedirectToAction("Index", "RAllUsers");
             }
 
             // Redirect back to the Getsession action
-            return RedirectToAction("Getsession");
+            return RedirectToAction("StoreEmailInSession");
         }
 
        

@@ -18,6 +18,7 @@ namespace LabMaintanance6.Models
         public AllUser()
         {
             this.Complains = new HashSet<Complain>();
+            this.tech2 = new HashSet<tech2>();
         }
     
         public int user_id { get; set; }
@@ -35,5 +36,7 @@ namespace LabMaintanance6.Models
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Complain> Complains { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tech2> tech2 { get; set; }
     }
 }

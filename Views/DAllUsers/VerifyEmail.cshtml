@@ -7,7 +7,7 @@
 
 <p>Please check your email for the verification OTP and enter it below:</p>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("VerifyEmail", "Account", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
 {
     @Html.AntiForgeryToken()
 
@@ -21,22 +21,15 @@
         </div>
     </div>
 
-
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Verify" class="btn btn-primary btn-verify" />
+            <button type="submit" class="btn btn-primary">Verify</button>
         </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <div class="text-bg-danger">"If you fail to Varify then Your Account will be Dectivaved"</div>
+
+    <div class="text-danger">
+        If you fail to verify, your account will be deactivated.
+    </div>
 }
 
 @if (TempData["SuccessMessage"] != null)
@@ -48,28 +41,22 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function () {
-            // Place any additional scripts or logic here if needed.
-        });
-
         // Bootstrap form validation
         (function () {
             'use strict';
 
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            var forms = document.querySelectorAll('.needs-validation');
+            // Fetch the form to apply custom Bootstrap validation styles to
+            var form = document.querySelector('.needs-validation');
 
-            // Loop over them and prevent submission
-            Array.prototype.slice.call(forms).forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
+            // Prevent submission if form is invalid
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
 
-                    form.classList.add('was-validated');
-                }, false);
-            });
+                form.classList.add('was-validated');
+            }, false);
         })();
     </script>
 }

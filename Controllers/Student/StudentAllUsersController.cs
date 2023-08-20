@@ -182,7 +182,7 @@ namespace LabMaintanance6.Controllers.Student
             db.Entry(allUser).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Logout","Home");
         }
 
         protected override void Dispose(bool disposing)

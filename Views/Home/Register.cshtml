@@ -76,7 +76,7 @@
                                     @Html.LabelFor(model => model.username, "UserName")
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(model => model.username, new { @class = "form-control", placeholder = "Username" })
+                                    @Html.TextBoxFor(model => model.username, new { @class = "form-control", placeholder = "Username", required = "required" })
                                     @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
@@ -85,7 +85,7 @@
                                     @Html.LabelFor(model => model.email, "Email")
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(model => model.email, new { @class = "form-control", placeholder = "Email" })
+                                    @Html.TextBoxFor(model => model.email, new { @class = "form-control", placeholder = "Email", required = "required" })
                                     @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
@@ -94,11 +94,12 @@
                                     @Html.LabelFor(model => model.password, "Password")
                                 </td>
                                 <td>
-                                    @Html.PasswordFor(model => model.password, new { @class = "form-control", placeholder = "Password" })
+                                    @Html.PasswordFor(model => model.password, new { @class = "form-control", placeholder = "Password", required = "required" })
                                     @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
                                 </td>
                             </tr>
                         </table>
+
 
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">

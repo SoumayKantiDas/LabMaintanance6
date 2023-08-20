@@ -141,14 +141,14 @@
     <Compile Include="Controllers\Student\StudentAllUsersController.cs" />
     <Compile Include="Controllers\Student\StudentComplainsController.cs" />
     <Compile Include="Controllers\Student\StudentController.cs" />
+    <Compile Include="Controllers\Stuff\N2tech2Controller.cs" />
     <Compile Include="Controllers\Stuff\StuffAllUsersController.cs" />
     <Compile Include="Controllers\Stuff\StuffComplainsController.cs" />
     <Compile Include="Controllers\Stuff\StuffController.cs" />
-    <Compile Include="Controllers\Stuff\Stufftech2Controller.cs" />
     <Compile Include="Controllers\Teacher\AllUsersController.cs" />
     <Compile Include="Controllers\Teacher\ComplainsController.cs" />
+    <Compile Include="Controllers\Teacher\Ntech21Controller.cs" />
     <Compile Include="Controllers\Teacher\TeacherController.cs" />
-    <Compile Include="Controllers\Teacher\tech2Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -232,6 +232,7 @@
       <DependentUpon>db.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\JavaScript.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -259,9 +260,6 @@
     <Content Include="Views\Complains\Edit.cshtml" />
     <Content Include="Views\Complains\Index.cshtml" />
     <Content Include="Views\Complains\Delete.cshtml" />
-    <Content Include="Views\tech2\Create.cshtml" />
-    <Content Include="Views\tech2\Delete.cshtml" />
-    <Content Include="Views\tech2\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
@@ -282,8 +280,6 @@
     <Content Include="Views\StuffComplains\Details.cshtml" />
     <Content Include="Views\StuffComplains\Edit.cshtml" />
     <Content Include="Views\StuffComplains\Index.cshtml" />
-    <Content Include="Views\Stufftech2\Create.cshtml" />
-    <Content Include="Views\Stufftech2\Index.cshtml" />
     <Content Include="Views\StudentAllUsers\Delete.cshtml" />
     <Content Include="Views\StudentAllUsers\Edit.cshtml" />
     <Content Include="Views\StudentAllUsers\Index.cshtml" />
@@ -298,6 +294,11 @@
     <Content Include="Views\RAllUsers\Index.cshtml" />
     <Content Include="Views\RAllUsers\StoreEmailInSession.cshtml" />
     <Content Include="Views\RAllUsers\VerifyEmail.cshtml" />
+    <Content Include="Views\Ntech21\Create.cshtml" />
+    <Content Include="Views\Ntech21\Delete.cshtml" />
+    <Content Include="Views\Ntech21\Index.cshtml" />
+    <Content Include="Views\N2tech2\Create.cshtml" />
+    <Content Include="Views\N2tech2\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

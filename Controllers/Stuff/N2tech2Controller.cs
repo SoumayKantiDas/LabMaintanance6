@@ -13,11 +13,10 @@ using PagedList.Mvc;
 
 namespace LabMaintanance6.Controllers.Stuff
 {
-    public class Stufftech2Controller : Controller
+    public class N2tech2Controller : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
-        // GET: Stufftech2
         public ActionResult Index(int? i)
         {
             // Retrieve user ID from session
@@ -31,7 +30,7 @@ namespace LabMaintanance6.Controllers.Stuff
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-            var tech2 = db.tech2.Include(t => t.Complain)
+            var tech21 = db.tech2.Include(t => t.Complain)
                                 .Where(t => t.status == true)
                                 .ToList()
                                 .OrderByDescending(c => c.action_id) // Order by a specific property, such as Id
@@ -39,12 +38,11 @@ namespace LabMaintanance6.Controllers.Stuff
                 .ToPagedList(i ?? 1, 3);
 
 
-            return View(tech2);
+            return View(tech21);
         }
-
-      
-
-        // GET: Stufftech2/Create
+        // GET: N2tech2/Details/5
+        
+        // GET: N2tech2/Create
         public ActionResult Create()
         {
             // Retrieve user ID from session
@@ -58,17 +56,16 @@ namespace LabMaintanance6.Controllers.Stuff
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-            var activeComplains = db.Complains.Where(c => c.status == true);
-            ViewBag.complain_id = new SelectList(activeComplains, "complain_id", "Name_Of_the_Item");
+
             return View();
         }
 
-        // POST: Stufftech2/Create
+        // POST: N2tech2/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "action_id,complain_id,technicianName,action_description,action_date")] tech2 tech2, int id)
+        public ActionResult Create([Bind(Include = "action_id,complain_id,technicianName,action_description,action_date,status")] tech2 tech2, int? id)
         {
             // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
@@ -83,32 +80,25 @@ namespace LabMaintanance6.Controllers.Stuff
             }
             if (ModelState.IsValid)
             {
+                tech2.complain_id = (int)id;
                 tech2.status = true;
-                tech2.complain_id = id;
+                tech2.user_id = userId.Value;
                 db.tech2.Add(tech2);
-                // Get the list of users with role_id = 2
+                db.SaveChanges();
                 var users = db.AllUsers.Where(u => u.role_id == 1 && u.status == true).ToList();
-
-                // Send email to each user
                 try
                 {
                     foreach (var user in users)
                     {
-                        SendEmail(user.email, "Lab Maintanior", "A new Action has been taken. Please review it.");
+                        SendEmail(user.email, "Labmaintanior", "Sir, A new Action has been created. Please review it.");
                     }
+
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
-                    // Log the exception for debugging purposes
-                    System.Diagnostics.Debug.WriteLine($"Exception: {ex}");
-
-                    ViewBag.ErrorMessage = "An error occurred while processing your request.";
-
-                    // In this example, we're just continuing the process even if an exception occurs
+                    return RedirectToAction("Index");
                 }
-
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
             ViewBag.complain_id = new SelectList(db.Complains, "complain_id", "Name_Of_the_Item", tech2.complain_id);
@@ -132,58 +122,13 @@ namespace LabMaintanance6.Controllers.Stuff
             // Send the email
             smtpClient.Send(message);
         }
-        public ActionResult Delete(int? id)
-        {
-            // Retrieve user ID from session
-            int? userId = Session["UserId"] as int?;
-            // Retrieve role ID from session
-            int? roleId = Session["RoleId"] as int?;
 
-            // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 2)
-            {
-                // Authorization failed, redirect to Home/Index
-                return RedirectToAction("Index", "Home");
-            }
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tech2 tech2 = db.tech2.Find(id);
-            if (tech2 == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tech2);
-        }
 
-        // POST: tech2/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            // Retrieve user ID from session
-            int? userId = Session["UserId"] as int?;
-            // Retrieve role ID from session
-            int? roleId = Session["RoleId"] as int?;
 
-            // Perform authorization logic using the session's UserId and RoleId
-            if (userId == null || roleId != 2)
-            {
-                // Authorization failed, redirect to Home/Index
-                return RedirectToAction("Index", "Home");
-            }
-            tech2 tech2 = db.tech2.Find(id);
-            tech2.status = false;
-            db.Entry(tech2).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
 
 
         protected override void Dispose(bool disposing)
         {
-
             if (disposing)
             {
                 db.Dispose();
@@ -192,4 +137,3 @@ namespace LabMaintanance6.Controllers.Stuff
         }
     }
 }
-

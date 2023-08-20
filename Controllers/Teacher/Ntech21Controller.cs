@@ -13,10 +13,11 @@ using PagedList.Mvc;
 
 namespace LabMaintanance6.Controllers.Teacher
 {
-    public class tech2Controller : Controller
+    public class Ntech21Controller : Controller
     {
         private LabMaintanance4Entities db = new LabMaintanance4Entities();
 
+        // GET: Ntech21
         // GET: tech2
         public ActionResult Index(int? i)
         {
@@ -37,13 +38,13 @@ namespace LabMaintanance6.Controllers.Teacher
                                 .OrderByDescending(c => c.action_id) // Order by a specific property, such as Id
                 .ToList()
                 .ToPagedList(i ?? 1, 3);
-            
+
 
             return View(tech21);
         }
 
-
-        // GET: tech2/Details/5
+        
+        // GET: Ntech21/Create
         public ActionResult Create()
         {
             // Retrieve user ID from session
@@ -57,20 +58,17 @@ namespace LabMaintanance6.Controllers.Teacher
                 // Authorization failed, redirect to Home/Index
                 return RedirectToAction("Index", "Home");
             }
-            var activeComplains = db.Complains.Where(c => c.status == true);
-            ViewBag.complain_id = new SelectList(activeComplains, "complain_id", "Name_Of_the_Item");
             return View();
         }
 
-
-        // POST: tech2/Create
+        // POST: Ntech21/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "action_id,complain_id,technicianName,action_description,action_date")] tech2 tech2,int id)
+        public ActionResult Create([Bind(Include = "action_id,complain_id,technicianName,action_description,action_date,status")] tech2 tech2, int? id)
         {
-             // Retrieve user ID from session
+            // Retrieve user ID from session
             int? userId = Session["UserId"] as int?;
             // Retrieve role ID from session
             int? roleId = Session["RoleId"] as int?;
@@ -83,9 +81,11 @@ namespace LabMaintanance6.Controllers.Teacher
             }
             if (ModelState.IsValid)
             {
+                tech2.complain_id = (int)id;
                 tech2.status = true;
-                tech2.complain_id = id;
+                tech2.user_id = userId.Value;
                 db.tech2.Add(tech2);
+                db.SaveChanges();
                 // Get the list of users with role_id = 2
                 var users = db.AllUsers.Where(u => u.role_id == 1 && u.status == true).ToList();
 
@@ -94,26 +94,21 @@ namespace LabMaintanance6.Controllers.Teacher
                 {
                     foreach (var user in users)
                     {
-                        SendEmail(user.email, "Lab Maintanior", "A new Action has been taken. Please review it.");
+                        SendEmail(user.email, "Labmaintanior", "Sir, A new Action has been created. Please review it.");
                     }
+
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
-                    // Log the exception for debugging purposes
-                    System.Diagnostics.Debug.WriteLine($"Exception: {ex}");
-
-                    ViewBag.ErrorMessage = "An error occurred while processing your request.";
-
-                    // In this example, we're just continuing the process even if an exception occurs
+                    return RedirectToAction("Index");
                 }
-
-                db.SaveChanges();
-                return RedirectToAction("Index");
             }
 
             ViewBag.complain_id = new SelectList(db.Complains, "complain_id", "Name_Of_the_Item", tech2.complain_id);
             return View(tech2);
         }
+
         private void SendEmail(string recipient, string subject, string body)
         {
             // Configure the SMTP client
@@ -132,7 +127,6 @@ namespace LabMaintanance6.Controllers.Teacher
             // Send the email
             smtpClient.Send(message);
         }
-
         public ActionResult Delete(int? id)
         {
             // Retrieve user ID from session
@@ -184,7 +178,6 @@ namespace LabMaintanance6.Controllers.Teacher
 
         protected override void Dispose(bool disposing)
         {
-
             if (disposing)
             {
                 db.Dispose();

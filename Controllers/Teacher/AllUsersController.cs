@@ -184,7 +184,7 @@ namespace LabMaintanance6.Controllers.Teacher
             db.Entry(allUser).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Logout", "Home");
         }
         // GET: Account/Logout
       

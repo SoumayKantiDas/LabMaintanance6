@@ -16,6 +16,7 @@
         <AssociationConnector Association="LabMaintanance4Model.FK__Complains__Prior__300424B4" ManuallyRouted="false" />
         <AssociationConnector Association="LabMaintanance4Model.FK__Complains__Repai__30F848ED" ManuallyRouted="false" />
         <AssociationConnector Association="LabMaintanance4Model.FK__tech2__complain___31EC6D26" ManuallyRouted="false" />
+        <AssociationConnector Association="LabMaintanance4Model.FK__tech2__user_id__01142BA1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -20,7 +20,9 @@ namespace LabMaintanance6.Models
         public string action_description { get; set; }
         public System.DateTime action_date { get; set; }
         public bool status { get; set; }
+        public Nullable<int> user_id { get; set; }
     
         public virtual Complain Complain { get; set; }
+        public virtual AllUser AllUser { get; set; }
     }
 }

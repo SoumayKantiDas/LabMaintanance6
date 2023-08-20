@@ -60,14 +60,7 @@
                 </td>
             </tr>
           
-            <tr>
-                <th class="table-label">
-                      Username
-                </th>
-                <td class="table-value">
-                    @Html.DisplayFor(model => model.AllUser.username)
-                </td>
-            </tr>
+          
             <tr>
                 <th class="table-label">
                       Priority
@@ -137,6 +130,6 @@
 
 <div class="action-links">
     @Html.ActionLink("Update Repaired Status", "Edit", new { id = Model.complain_id }, new { @class = "btn btn-primary" })
-    <a href="@Url.Action("Create", "StuffTech2", new { id = Model.complain_id })" class="btn btn-info btn-action" id="take-action-@Model.complain_id">Take Action</a>
+    <a href="@Url.Action("Create", "N2tech2", new { id = Model.complain_id })" class="btn btn-info btn-action" id="take-action-@Model.complain_id">Take Action</a>
     @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
 </div>
